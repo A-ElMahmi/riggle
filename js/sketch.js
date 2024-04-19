@@ -19,6 +19,6 @@ function draw() {
     // text("Alhamdolilah", 200, 250)
 }
 
-// function keyPressed() {
-//     if (keyCode === LEFT_ARROW)
-// }
+function keyPressed() {
+    if (keyCode === LEFT_ARROW)
+}
