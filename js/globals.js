@@ -1,0 +1,3 @@
+const GRID_SIZE = 20
+const GRID_WIDTH = 48
+const GRID_HEIGHT = 27
