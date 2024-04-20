@@ -3,12 +3,11 @@ class Snake {
         this.pos = createVector(floor(GRID_WIDTH / 3), floor(GRID_HEIGHT / 2))
         this.vel = createVector(1, 0)
         
-        this.tail = createVector(this.pos.x - 1, this.pos.y)
+        this.body = [createVector(this.pos.x - 1, this.pos.y), createVector(this.pos.x-2, this.pos.y)]
     }
     
     update() {
         if (frameCount % 5 === 0) {
-            this.tail.set(this.pos)
             this.pos.add(this.vel)
         }
         
@@ -32,6 +31,8 @@ class Snake {
         rect(this.pos.x * GRID_SIZE, this.pos.y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
         
         fill(0, 205, 255)
-        rect(this.tail.x * GRID_SIZE, this.tail.y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
+        for (let i = 0; i < this.body.length; i++) {
+            rect(this.body[i].x * GRID_SIZE, this.body[i].y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
+        }
     }
 }
