@@ -8,11 +8,21 @@ class Snake {
     
     update() {
         if (frameCount % 5 === 0) {
+            for (let i = this.body.length - 1; i > 0; i--) {
+                this.body[i].set(this.body[i-1])
+            }
+
+            this.body[0].set(this.pos)
             this.pos.add(this.vel)
+
         }
         
         this.pos.x = constrain(this.pos.x, 0, GRID_WIDTH-1)
         this.pos.y = constrain(this.pos.y, 0, GRID_HEIGHT-1)
+    }
+    
+    grow() {
+        this.body.unshift(createVector(this.pos))
     }
 
     move(dirX, dirY) {
