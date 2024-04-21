@@ -1,9 +1,11 @@
 let s
+let food
 
 function setup() {
     createCanvas(GRID_SIZE * GRID_WIDTH, GRID_SIZE * GRID_HEIGHT)
 
     s = new Snake()
+    food = new Food()
 }
 
 function keyPressed() {
@@ -21,6 +23,13 @@ function keyPressed() {
 function draw() {
     background(220)
     frameRate(30)
+
+    if (s.intersect(food.pos.x, food.pos.y)) {
+        s.grow()
+        food = new Food()
+    }
+
+    food.show()
 
     s.update()
     s.show()

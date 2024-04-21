@@ -35,6 +35,10 @@ class Snake {
         this.vel.y = dirY
     }
 
+    intersect(x, y) {
+        return this.pos.x === x && this.pos.y === y
+    }
+
     show() {
         noStroke()
         fill(0, 255, 255)
