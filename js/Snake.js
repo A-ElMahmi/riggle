@@ -32,8 +32,12 @@ class Snake {
         return false
     }
     
-    grow() {
-        this.body.unshift(createVector(this.pos))
+    grow(size) {
+        console.log(size);
+
+        for (let i = 0; i < size; i++) {
+            this.body.unshift(createVector(this.pos))
+        }
     }
 
     move(dirX, dirY) {
