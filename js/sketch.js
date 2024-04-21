@@ -32,5 +32,10 @@ function draw() {
     food.show()
 
     s.update()
+
+    if (s.isDead()) {
+        s = new Snake()
+    }
+    
     s.show()
 }
