@@ -17,6 +17,20 @@ class Snake {
 
         }
     }
+
+    isDead() {
+        if (this.pos.x < 0 || this.pos.x >= GRID_WIDTH || this.pos.y < 0 || this.pos.y >= GRID_HEIGHT) {
+            return true
+        }
+
+        for (let i = 0; i < this.body.length; i++) {
+            if (this.intersect(this.body[i].x, this.body[i].y)) {
+                return true
+            }
+        }
+
+        return false
+    }
     
     grow() {
         this.body.unshift(createVector(this.pos))
