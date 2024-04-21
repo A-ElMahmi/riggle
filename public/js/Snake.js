@@ -1,9 +1,11 @@
 class Snake {
-    constructor() {
+    constructor(enemy = false) {
         this.pos = createVector(floor(GRID_WIDTH / 3), floor(GRID_HEIGHT / 2))
         this.vel = createVector(1, 0)
         
         this.body = [createVector(this.pos.x - 1, this.pos.y), createVector(this.pos.x-2, this.pos.y)]
+        
+        this.enemy = enemy
     }
     
     update() {
@@ -50,11 +52,13 @@ class Snake {
     }
 
     show() {
+        let colour = this.enemy ? 150 : 255
+
         noStroke()
-        fill(0, 255, 255)
+        fill(0, 255, colour)
         rect(this.pos.x * GRID_SIZE, this.pos.y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
         
-        fill(0, 205, 255)
+        fill(0, 205, colour)
         for (let i = 0; i < this.body.length; i++) {
             rect(this.body[i].x * GRID_SIZE, this.body[i].y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
         }

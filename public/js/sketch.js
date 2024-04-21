@@ -1,11 +1,17 @@
+let socket
+
 let s
 let food
+
+let enemy
 
 function setup() {
     createCanvas(GRID_SIZE * GRID_WIDTH, GRID_SIZE * GRID_HEIGHT)
 
     s = new Snake()
     food = new Food()
+
+    enemy = new Snake(true)
 }
 
 function keyPressed() {
@@ -38,4 +44,7 @@ function draw() {
     }
     
     s.show()
+    enemy.show()
+
+    socket.emit("move", s)
 }
