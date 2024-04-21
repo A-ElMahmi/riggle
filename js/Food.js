@@ -5,6 +5,6 @@ class Food {
 
     show() {
         fill(254, 0, 0)
-        ellipse(this.pos.x * GRID_SIZE + (GRID_SIZE/1), this.pos.y * GRID_SIZE + (GRID_SIZE/2), GRID_SIZE, GRID_SIZE)
+        ellipse(this.pos.x * GRID_SIZE + (GRID_SIZE/2), this.pos.y * GRID_SIZE + (GRID_SIZE/2), GRID_SIZE, GRID_SIZE)
     }
 }

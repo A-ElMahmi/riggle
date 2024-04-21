@@ -16,9 +16,6 @@ class Snake {
             this.pos.add(this.vel)
 
         }
-        
-        this.pos.x = constrain(this.pos.x, 0, GRID_WIDTH-1)
-        this.pos.y = constrain(this.pos.y, 0, GRID_HEIGHT-1)
     }
     
     grow() {
@@ -26,11 +23,6 @@ class Snake {
     }
 
     move(dirX, dirY) {
-        // Prevent backwards movement
-        if (dirX === this.vel.x ^ dirY === this.vel.y) {
-            console.log("DIE");
-        }
-
         this.vel.x = dirX
         this.vel.y = dirY
     }
