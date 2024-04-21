@@ -7,6 +7,13 @@ let enemy
 
 function setup() {
     createCanvas(GRID_SIZE * GRID_WIDTH, GRID_SIZE * GRID_HEIGHT)
+    socket = io.connect("http://localhost:3000")
+
+    socket.on("move", data => {
+        enemy.pos = data.pos
+        enemy.body = data.body
+    })
+
 
     s = new Snake()
     food = new Food()
@@ -48,3 +55,12 @@ function draw() {
 
     socket.emit("move", s)
 }
+
+
+
+
+
+
+
+
+
