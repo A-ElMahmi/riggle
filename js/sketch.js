@@ -9,13 +9,13 @@ function setup() {
 }
 
 function keyPressed() {
-    if (keyCode === LEFT_ARROW) {
+    if (keyCode === LEFT_ARROW || keyCode === 65) {
         s.move(-1, 0)
-    } else if (keyCode === RIGHT_ARROW) {
+    } else if (keyCode === RIGHT_ARROW || keyCode === 68) {
         s.move(1, 0)
-    } else if (keyCode === UP_ARROW) {
+    } else if (keyCode === UP_ARROW || keyCode === 87) {
         s.move(0, -1)
-    } else if (keyCode === DOWN_ARROW) {
+    } else if (keyCode === DOWN_ARROW || keyCode === 83) {
         s.move(0, 1)
     }
 }
