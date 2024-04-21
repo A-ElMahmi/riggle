@@ -25,7 +25,7 @@ function draw() {
     frameRate(30)
 
     if (s.intersect(food.pos.x, food.pos.y)) {
-        s.grow()
+        s.grow(food.value)
         food = new Food()
     }
 
