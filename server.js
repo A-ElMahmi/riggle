@@ -66,6 +66,27 @@ function isDead(socketId) {
         return true
     }
 
+    for (const [enemyId, enemySnake] of Object.entries(snakes)) {
+        if (enemyId === socketId) continue
+
+        // Head on collision
+        if (snake.pos.x === enemySnake.pos.x && snake.pos.y === enemySnake.pos.y) {
+            snakes[enemyId].pos = newSpawnPosition()
+            io.to(enemyId).emit("dead", snakes[enemyId].pos)
+            return true
+        }
+
+        // Body collision
+        if (enemySnake.body === undefined) continue
+
+        for (bodyElem of enemySnake.body) {
+            if (snake.pos.x === bodyElem.x && snake.pos.y === bodyElem.y) {
+                return true
+            }
+        }
+    }
+
+
     for (bodyElem of snake.body) {
         if (snake.pos.x === bodyElem.x && snake.pos.y === bodyElem.y) {
             return true
@@ -79,3 +100,13 @@ function isDead(socketId) {
 function newSpawnPosition() {
     return { x: Math.floor(GRID_WIDTH / 2), y: Math.floor(GRID_HEIGHT / 2) }
 }
+
+
+
+
+
+
+
+
+
+
