@@ -1,3 +1,3 @@
-const GRID_SIZE = 20
-const GRID_WIDTH = 48
-const GRID_HEIGHT = 27
+let GRID_SIZE = 20
+let GRID_WIDTH = 48
+let GRID_HEIGHT = 27
