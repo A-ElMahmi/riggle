@@ -6,6 +6,12 @@ class Snake {
         this.enemy = enemy
     }
 
+    reset(x, y) {
+        this.pos = createVector(x, y)
+        this.vel = createVector(1, 0)
+        this.body = [createVector(this.pos.x-1, this.pos.y), createVector(this.pos.x-2, this.pos.y)]
+    }
+
     update() {
         if (frameCount % 5 === 0) {
             for (let i = this.body.length - 1; i > 0; i--) {
