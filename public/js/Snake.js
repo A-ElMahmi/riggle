@@ -1,13 +1,11 @@
 class Snake {
-    constructor(enemy = false) {
-        this.pos = createVector(floor(GRID_WIDTH / 3), floor(GRID_HEIGHT / 2))
-        this.vel = createVector(1, 0)
-        
-        this.body = [createVector(this.pos.x - 1, this.pos.y), createVector(this.pos.x-2, this.pos.y)]
-        
+    constructor(x, y, size, enemy = false) {
+        this.reset(x, y)
+
+        this.size = size
         this.enemy = enemy
     }
-    
+
     update() {
         if (frameCount % 5 === 0) {
             for (let i = this.body.length - 1; i > 0; i--) {
@@ -20,20 +18,6 @@ class Snake {
         }
     }
 
-    isDead() {
-        if (this.pos.x < 0 || this.pos.x >= GRID_WIDTH || this.pos.y < 0 || this.pos.y >= GRID_HEIGHT) {
-            return true
-        }
-
-        for (let i = 0; i < this.body.length; i++) {
-            if (this.intersect(this.body[i].x, this.body[i].y)) {
-                return true
-            }
-        }
-
-        return false
-    }
-    
     grow(size) {
         console.log(size);
 
@@ -56,11 +40,11 @@ class Snake {
 
         noStroke()
         fill(0, 255, colour)
-        rect(this.pos.x * GRID_SIZE, this.pos.y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
+        rect(this.pos.x * this.size, this.pos.y * this.size, this.size, this.size)
         
         fill(0, 205, colour)
         for (let i = 0; i < this.body.length; i++) {
-            rect(this.body[i].x * GRID_SIZE, this.body[i].y * GRID_SIZE, GRID_SIZE, GRID_SIZE)
+            rect(this.body[i].x * this.size, this.body[i].y * this.size, this.size, this.size)
         }
     }
 }

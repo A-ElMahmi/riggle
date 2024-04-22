@@ -1,24 +1,17 @@
 let socket
+let connected = false
 
 let s
 let food
 
-let enemy
+let enemies = []
 
 function setup() {
     createCanvas(GRID_SIZE * GRID_WIDTH, GRID_SIZE * GRID_HEIGHT)
+
     socket = io.connect("http://localhost:3000")
+    let id
 
-    socket.on("move", data => {
-        enemy.pos = data.pos
-        enemy.body = data.body
-    })
-
-
-    s = new Snake()
-    food = new Food()
-
-    enemy = new Snake(true)
 }
 
 function keyPressed() {
@@ -37,30 +30,26 @@ function draw() {
     background(220)
     frameRate(30)
 
-    if (s.intersect(food.pos.x, food.pos.y)) {
-        s.grow(food.value)
-        food = new Food()
+    if (!connected) {
+        console.log("Failed to connect to server");
+        return
     }
 
-    food.show()
+    if (food.pos) {
+        if (s.intersect(food.pos.x, food.pos.y)) {
+            s.grow(food.value)
+            socket.emit("food_eaten")
+        }
+
+        food.show()
+    }
 
     s.update()
-
-    if (s.isDead()) {
-        s = new Snake()
-    }
-    
     s.show()
-    enemy.show()
+
+    for (const enemy of enemies) {
+        enemy.show()
+    }
 
     socket.emit("move", s)
 }
-
-
-
-
-
-
-
-
-
