@@ -8,8 +8,11 @@ class Snake {
 
     reset(x, y) {
         this.pos = createVector(x, y)
-        this.vel = createVector(1, 0)
-        this.body = [createVector(this.pos.x-1, this.pos.y), createVector(this.pos.x-2, this.pos.y)]
+        this.vel = createVector(...random([[0, 1], [1, 0], [0, -1], [-1, 0]]))
+        this.body = [
+            createVector(this.pos.x - this.vel.x, this.pos.y - this.vel.y), 
+            createVector(this.pos.x - this.vel.x*2, this.pos.y - this.vel.y*2)
+        ]
     }
 
     update() {
@@ -33,6 +36,9 @@ class Snake {
     }
 
     move(dirX, dirY) {
+
+        // Ignore backwards movement
+        if (dirX === this.vel.x ^ dirY === this.vel.y) return
         this.vel.x = dirX
         this.vel.y = dirY
     }
@@ -54,3 +60,15 @@ class Snake {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
