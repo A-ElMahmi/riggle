@@ -3,10 +3,10 @@
 ## Todo
 - [ ] Setup multiplayer mode
     - [x] Allow array of enemies
-    - [ ] Full kill mechanism
+    - [x] Full kill mechanism
     - [ ] Allow multiple food
     - [ ] Allow background refresh
-- [ ] Fix backwards kill bug
+- [x] Fix backwards kill bug
 - [ ] Ensure food doesn't spawn on snake
 - [ ] Implement graphics for snake body
 - [ ] Add start and end screens
