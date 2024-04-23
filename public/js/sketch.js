@@ -2,24 +2,34 @@ let socket
 let connected = false
 
 let s
-let food
 
+let food = []
 let enemies = []
 
+let snakeSpriteSheet
+
+function preload() {
+    snakeSpriteSheet = loadImage("assets/snake-spritesheet.png")
+}
+
 function setup() {
-    createCanvas(GRID_SIZE * GRID_WIDTH, GRID_SIZE * GRID_HEIGHT)
+    createCanvas(960, 540)
 
     socket = io.connect("http://localhost:3000")
     let id
 
     socket.on("world_info", data => {
-        connected = true
         id = data.id
         GRID_SIZE = data.gridSize
         GRID_WIDTH = data.gridWidth
         GRID_HEIGHT = data.gridHeight
 
         s = new Snake(data.x, data.y, GRID_SIZE)
+
+        for (let i = 0; i < data.foodCount; i++) {
+            food.push(new Food(GRID_SIZE))
+        }
+        connected = true
     })
 
     socket.on("move", snakes => {
@@ -37,14 +47,16 @@ function setup() {
         s.reset(newPos.x, newPos.y)
     })
 
-    socket.on("food_location", data => {
-        food.pos = createVector(data.x, data.y)
-        food.value = data.value
+    socket.on("food_location", foodLocation => {
+        for (const [i, foodItem] of Object.entries(foodLocation)) {
+            food[i].pos = createVector(foodItem.x, foodItem.y)
+            food[i].value = foodItem.value
+        }
     })
 
-    food = new Food(GRID_SIZE)
-
-
+    socket.on("grow", value => {
+        s.grow(value.value)
+    })
 }
 
 function keyPressed() {
@@ -60,7 +72,12 @@ function keyPressed() {
     if (keyCode === DOWN_ARROW || keyCode === 83) {
         s.move(0, 1)
     }
+
+    if (keyCode === 32) {
+        s.boostSpeed()
+    }
 }
+
 
 function draw() {
     background(220)
@@ -71,17 +88,12 @@ function draw() {
         return
     }
 
-    if (food.pos) {
-        if (s.intersect(food.pos.x, food.pos.y)) {
-            s.grow(food.value)
-            socket.emit("food_eaten")
-        }
-
-        food.show()
+    for (const foodItem of food) {
+        foodItem.show()
     }
 
     s.update()
-    s.show()
+    s.show(snakeSpriteSheet)
 
     for (const enemy of enemies) {
         enemy.show()

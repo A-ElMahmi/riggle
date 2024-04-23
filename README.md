@@ -4,11 +4,17 @@
 - [ ] Setup multiplayer mode
     - [x] Allow array of enemies
     - [x] Full kill mechanism
-    - [ ] Allow multiple food
+    - [x] Allow multiple food
     - [ ] Allow background refresh
 - [x] Fix backwards kill bug
-- [ ] Ensure food doesn't spawn on snake
+- [x] Ensure food doesn't spawn on snake
+- [x] Add speed boost
 - [ ] Implement graphics for snake body
-- [ ] Add start and end screens
 - [ ] Add moving camera
+- [ ] Add start and end screens
+
+- [ ] Bug fix: Running into your own neck
+- [ ] Bug fix: Body part when eating food
+
+- [ ] Add minimap
 - [ ] Leaderboard

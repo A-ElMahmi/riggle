@@ -9,12 +9,16 @@ console.log("Server is running");
 
 const io = require("socket.io")(server)
 
-const GRID_SIZE = 20
-const GRID_WIDTH = 48
-const GRID_HEIGHT = 27
+const GRID_SIZE = 30
+const GRID_WIDTH = 32
+const GRID_HEIGHT = 18
 
 let snakes = {}
-let foodLocation = newFood()
+let foodLocation = []
+
+for (let i = 0; i < 10; i++) {
+    foodLocation.push(newFood())
+}
 
 io.sockets.on("connection", (socket) => {
     console.log("New connection :) " + socket.id);
@@ -26,8 +30,11 @@ io.sockets.on("connection", (socket) => {
         gridSize: GRID_SIZE, 
         gridWidth: GRID_WIDTH, 
         gridHeight: GRID_HEIGHT,
-        ...snakes[socket.id].pos
+        ...snakes[socket.id].pos,
+        foodCount: foodLocation.length
     })
+
+    socket.emit("food_location", foodLocation)
 
     socket.on("move", snake => {
         snakes[socket.id] = snake
@@ -40,22 +47,14 @@ io.sockets.on("connection", (socket) => {
         socket.broadcast.emit("move", snakes)
     })
 
-    socket.emit("food_location", foodLocation)
-
-    socket.on("food_eaten", () => {
-        foodLocation = newFood()
-        io.sockets.emit("food_location", foodLocation)
-    })
-
     socket.on("disconnect", () => {
         console.log("Client disconnected :(");
         delete snakes[socket.id]
     })
 })
 
-
 function newFood() {
-    return { x: Math.floor(Math.random() * GRID_WIDTH), y: Math.floor(Math.random() * GRID_HEIGHT), value: Math.ceil(Math.random() * 3)}
+    return { ...getRandomLocation(), value: Math.ceil(Math.random() * 3)}
 }
 
 function isDead(socketId) {
@@ -86,27 +85,16 @@ function isDead(socketId) {
         }
     }
 
-
     for (bodyElem of snake.body) {
         if (snake.pos.x === bodyElem.x && snake.pos.y === bodyElem.y) {
             return true
         }
     }
 
-
     return false
 }
 
 function newSpawnPosition() {
-    return { x: Math.floor(GRID_WIDTH / 2), y: Math.floor(GRID_HEIGHT / 2) }
+    // return { x: Math.floor(GRID_WIDTH / 2), y: Math.floor(GRID_HEIGHT / 2) }
+    return getRandomLocation()
 }
-
-
-
-
-
-
-
-
-
-
