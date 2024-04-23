@@ -132,5 +132,43 @@ class Snake {
         }
     }
 
-    
+    displayRotatedImage(pos, sprite, bodyType, direction) {
+        const spriteCoord = {
+            head: [0, 0, 30, 30],
+            body: [30, 0, 30, 30], 
+            bodyCorner: [60, 0, 30, 30],
+            tail: [90, 0, 30, 30]
+        }
+
+        push()
+        imageMode(CENTER)
+        translate(pos.x * this.size + (this.size/2), pos.y * this.size + (this.size/2))
+        
+        if (direction === "north") {
+            rotate(0)
+        } else if (direction === "south") {
+            rotate(PI)
+        } else if (direction === "east") {
+            rotate(PI/2)
+        } else if (direction === "west") {
+            rotate(-PI/2)
+        }
+
+        image(sprite, 0, 0, this.size, this.size, ...spriteCoord[bodyType])
+        pop()
+    }
+
+    calculateBodyCornerRotation(bodyPos, aPos, bPos) {
+        if (aPos.x === bodyPos.x && aPos.y < bodyPos.y && bPos.x < bodyPos.x && bPos.y === bodyPos.y) {
+            return "north"
+        } else if (aPos.x === bodyPos.x && aPos.y < bodyPos.y && bPos.x > bodyPos.x && bPos.y === bodyPos.y) {
+            return "east"
+        } else if (aPos.x > bodyPos.x && aPos.y === bodyPos.y && bPos.x === bodyPos.x && bPos.y > bodyPos.y) {
+            return "south"
+        } else if (aPos.x < bodyPos.x && aPos.y === bodyPos.y && bPos.x === bodyPos.x && bPos.y > bodyPos.y) {
+            return "west"
+        }
+
+        return null
+    }
 }
