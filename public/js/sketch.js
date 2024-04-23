@@ -78,6 +78,12 @@ function keyPressed() {
     }
 }
 
+function keyReleased() {
+    if (keyCode === 32) {
+        s.normalSpeed()
+    }
+}
+
 
 function draw() {
     background(220)
