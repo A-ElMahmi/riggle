@@ -43,7 +43,12 @@ io.sockets.on("connection", (socket) => {
             snakes[socket.id].pos = newSpawnPosition()
             socket.emit("dead", snakes[socket.id].pos)
         }
-
+        const [ ateFood, foodIndex ] = isEatingFood(socket.id)
+        if (ateFood) {
+            socket.emit("grow", { value: foodLocation[foodIndex].value })
+            foodLocation[foodIndex] = newFood()
+            io.sockets.emit("food_location", foodLocation)
+        }
         socket.broadcast.emit("move", snakes)
     })
 
@@ -97,4 +102,51 @@ function isDead(socketId) {
 function newSpawnPosition() {
     // return { x: Math.floor(GRID_WIDTH / 2), y: Math.floor(GRID_HEIGHT / 2) }
     return getRandomLocation()
+}
+
+
+function isEatingFood(socketId) {
+    for (const [i, foodItem] of foodLocation.entries()) {
+        const { x, y } = snakes[socketId].pos
+        if (x === foodItem.x && y === foodItem.y) {
+            return [ true, i ]
+        }
+    }
+
+    return [ false, null ]
+}
+
+function isOccupiedSquare(x, y) {
+    for (const [_, snake] of Object.entries(snakes)) {
+        if (x === snake.pos.x && y === snake.pos.y) {
+            return true
+        }
+
+        if (snake.body === undefined) continue
+
+        for (const bodyElem of snake.body) {
+            if (x === bodyElem.x && y === bodyElem.y) {
+                return true
+            }
+        }
+    }
+
+    for (const foodItem of foodLocation) {
+        if (x === foodItem.x && y === foodItem.y) {
+            return true
+        }
+    }
+
+    return false
+}
+
+function getRandomLocation() {
+    let x, y
+
+    do {
+        x = Math.floor(Math.random() * GRID_WIDTH)
+        y = Math.floor(Math.random() * GRID_HEIGHT)
+    } while (isOccupiedSquare(x, y))
+
+    return { x: x, y: y }
 }
