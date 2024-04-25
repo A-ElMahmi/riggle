@@ -19,7 +19,7 @@ let ip = "riggle.onrender.com"
 function setup() {
     createCanvas(960, 540)
 
-    socket = io.connect("http://" + ip + ":3000")
+    socket = io.connect("//" + ip + ":3000")
     // socket = io.connect("http://" + ip)
 
     menu = new Menu()
