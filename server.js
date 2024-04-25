@@ -1,6 +1,7 @@
 const express = require("express")
 
 const app = express()
+
 const server = app.listen(3000)
 
 app.use(express.static("public"))
@@ -67,6 +68,7 @@ io.sockets.on("connection", (socket) => {
     })
 })
 
+
 function newFood() {
     let value
     let rand = Math.random() * 10
@@ -81,6 +83,7 @@ function newFood() {
 
     return { ...getRandomLocation(), value: value }
 }
+
 
 function isDead(socketId) {
     const snake = snakes[socketId]
@@ -125,6 +128,7 @@ function isDead(socketId) {
     return false
 }
 
+
 function newSpawnPosition() {
     let pos = getRandomLocation()
     pos.x = Math.max(3, Math.min(pos.x, GRID_WIDTH-3))
@@ -143,6 +147,7 @@ function isEatingFood(socketId) {
 
     return [ false, null ]
 }
+
 
 function isOccupiedSquare(x, y) {
     for (const [_, snake] of Object.entries(snakes)) {
@@ -178,3 +183,51 @@ function getRandomLocation() {
 
     return { x, y }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

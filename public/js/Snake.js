@@ -22,6 +22,7 @@ class Snake {
         this.carSound.loop = true
     }
 
+    
     update() {
         if (this.speed === 2 && this.body.length <= 2) {
             this.normalSpeed()
@@ -46,6 +47,7 @@ class Snake {
         }
     }
 
+
     died() {
         this.alive = false
         this.normalSpeed()
@@ -54,9 +56,11 @@ class Snake {
         this.vel.set(0, 0)
     }
 
+
     grow(size) {
         this.toGrow += size
     }
+
 
     boostSpeed() {
         if (this.body.length <= 2) return
@@ -64,10 +68,12 @@ class Snake {
         this.carSound.play()
     }
 
+
     normalSpeed() {
         this.speed = 1
         this.carSound.pause()
     }
+
 
     move(dirX, dirY) {
         // Ignore backwards movement
@@ -77,6 +83,7 @@ class Snake {
         this.vel.x = dirX
         this.vel.y = dirY
     }
+
 
     intersect(x, y) {
         return this.pos.x === x && this.pos.y === y
@@ -144,6 +151,7 @@ class Snake {
         this.displayRotatedImage(this.pos, snakeSprite, "head", dir)
     }
 
+
     displayRotatedImage(pos, sprite, bodyType, direction) {
         const spriteCoord = {
             head:       [0, this.colourInt * 30, 30, 30],
@@ -156,6 +164,7 @@ class Snake {
         imageMode(CENTER)
         translate(pos.x * this.size + (this.size/2) - displacement.x, pos.y * this.size + (this.size/2) - displacement.y)
         
+
         if (direction === "north") {
             rotate(0)
         } else if (direction === "south") {
@@ -174,6 +183,7 @@ class Snake {
         image(sprite, 0, 0, this.size, this.size, ...spriteCoord[bodyType])
         pop()
     }
+
 
     calculateBodyCornerRotation(bodyPos, aPos, bPos) {
         if (aPos.x === bodyPos.x && aPos.y < bodyPos.y && bPos.x < bodyPos.x && bPos.y === bodyPos.y) {
