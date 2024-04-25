@@ -9,8 +9,8 @@ let mode = MENU_MODE
 let menu, game
 let displacement
 
-// let ip = "localhost"
-let ip = "riggle.onrender.com"
+let ip = "localhost"
+// let ip = "riggle.onrender.com"
 // if (confirm("Are you the hacker?") === false) {
 //    ip = "10.156.15.105" 
 //    ip = "192.168.0.129" 
@@ -19,7 +19,7 @@ let ip = "riggle.onrender.com"
 function setup() {
     createCanvas(960, 540)
 
-    socket = io.connect("//" + ip + ":3000")
+    socket = io.connect("https://" + ip + ":3000")
     // socket = io.connect("http://" + ip)
 
     menu = new Menu()
