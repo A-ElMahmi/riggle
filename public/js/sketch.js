@@ -10,10 +10,10 @@ let menu, game
 let displacement
 
 let ip = "localhost"
-if (confirm("Are you the hacker?") === false) {
-   ip = "10.156.15.105" 
+// if (confirm("Are you the hacker?") === false) {
+//    ip = "10.156.15.105" 
 //    ip = "192.168.0.129" 
-}
+// }
 
 function setup() {
     createCanvas(960, 540)
