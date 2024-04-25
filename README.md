@@ -19,14 +19,19 @@
 - [x] Add glow effect when snake is speeding
 - [x] Different snake colours
 - [x] Add obstacles?
-- [ ] Menu screen panning
+- [x] Menu screen panning
 - [x] Barking sound
+- [x] Speeding sound
+- [ ] Menu screen should account for scale
+- [ ] Add visuals to barking
 
 - [x] Bug fix: Running into your own neck
 - [x] Bug fix: Body part when eating food
 - [x] Bug fix: Remove body after death
 - [ ] Bug fix: Head of enemy snakes
-- [ ] Bug fix: Minimap moving with scale
+- [x] Bug fix: Minimap moving with scale
+- [ ] Bug fix: Multiple food sound
+- [ ] Inifite food glitch
 
 - [ ] Leaderboard - random names database
 - [x] Add minimap

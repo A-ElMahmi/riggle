@@ -1,109 +1,92 @@
 let socket
-let connected = false
+const GRID_SIZE = 30
+const GRID_WIDTH = 70
 
-let s
+const MENU_MODE = 0
+const GAME_MODE = 1
+let mode = MENU_MODE
 
-let food = []
-let enemies = []
+let menu, game
+let displacement
 
-let snakeSpriteSheet
-
-function preload() {
-    snakeSpriteSheet = loadImage("assets/snake-spritesheet.png")
+let ip = "localhost"
+if (confirm("Are you the hacker?") === false) {
+   ip = "10.156.15.105" 
+//    ip = "192.168.0.129" 
 }
 
 function setup() {
     createCanvas(960, 540)
 
-    socket = io.connect("http://localhost:3000")
-    let id
+    socket = io.connect("http://" + ip + ":3000")
 
-    socket.on("world_info", data => {
-        id = data.id
-        GRID_SIZE = data.gridSize
-        GRID_WIDTH = data.gridWidth
-        GRID_HEIGHT = data.gridHeight
+    menu = new Menu()
+    game = new Game()
 
-        s = new Snake(data.x, data.y, GRID_SIZE)
+    displacement = createVector((GRID_WIDTH * GRID_SIZE) / 2, (GRID_WIDTH * GRID_SIZE) / 2)
 
-        for (let i = 0; i < data.foodCount; i++) {
-            food.push(new Food(GRID_SIZE))
-        }
-        connected = true
-    })
+    game.setupOtherPlayers()
+    menu.setup(true)
+    game.setup()
 
-    socket.on("move", snakes => {
-        delete snakes[id]
-
-        enemies = []
-        for (const [_, snakeInfo] of Object.entries(snakes)) {
-           let enemy = new Snake(snakeInfo.pos.x, snakeInfo.pos.y, GRID_SIZE, true) 
-           enemy.body = snakeInfo.body
-           enemies.push(enemy)
-        }
-    })
-
-    socket.on("dead", newPos => {
-        s.reset(newPos.x, newPos.y)
-    })
-
-    socket.on("food_location", foodLocation => {
-        for (const [i, foodItem] of Object.entries(foodLocation)) {
-            food[i].pos = createVector(foodItem.x, foodItem.y)
-            food[i].value = foodItem.value
-        }
-    })
-
-    socket.on("grow", value => {
-        s.grow(value.value)
-    })
 }
 
 function keyPressed() {
-    if (keyCode === LEFT_ARROW || keyCode === 65) {
-        s.move(-1, 0)
-    } 
-    if (keyCode === RIGHT_ARROW || keyCode === 68) {
-        s.move(1, 0)
-    } 
-    if (keyCode === UP_ARROW || keyCode === 87) {
-        s.move(0, -1)
-    } 
-    if (keyCode === DOWN_ARROW || keyCode === 83) {
-        s.move(0, 1)
-    }
-
-    if (keyCode === 32) {
-        s.boostSpeed()
+    if (mode == GAME_MODE) {
+        game.keyPressed()
     }
 }
 
 function keyReleased() {
-    if (keyCode === 32) {
-        s.normalSpeed()
+    if (mode === GAME_MODE) {
+        game.keyReleased()
+    } else if (mode === MENU_MODE) {
+        menu.keyReleased()
     }
 }
 
+function mousePressed() {
+    if (mode === MENU_MODE) {
+        menu.mousePressed()
+    }
+}
+
+function mouseReleased() {
+    if (mode === MENU_MODE) {
+        menu.mouseReleased()
+    }
+}
 
 function draw() {
     background(220)
     frameRate(30)
 
-    if (!connected) {
-        console.log("Failed to connect to server");
-        return
+    translate(width/2, height/2)
+
+    if (mode === MENU_MODE) {
+        if (menu.startGame) {
+            menu.startGame = false
+            changeMode(GAME_MODE)
+        }
+
+        game.drawOtherPlayers()
+        menu.draw()
+
+    } else if (mode === GAME_MODE) {
+        if (game.snakeDied && game.deathTimer <= 0) {
+            changeMode(MENU_MODE)
+        }
+        game.draw()
     }
+}
 
-    for (const foodItem of food) {
-        foodItem.show()
+function changeMode(newMode) {
+    mode = newMode
+
+    if (mode === MENU_MODE) {
+        menu.setup()
+    } else if (mode === GAME_MODE) {
+        // game.setup()
+        game.respawn()
     }
-
-    s.update()
-    s.show(snakeSpriteSheet)
-
-    for (const enemy of enemies) {
-        enemy.show()
-    }
-
-    socket.emit("move", s)
 }

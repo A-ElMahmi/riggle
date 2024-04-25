@@ -10,56 +10,76 @@ console.log("Server is running");
 const io = require("socket.io")(server)
 
 const GRID_SIZE = 30
-const GRID_WIDTH = 32
-const GRID_HEIGHT = 18
+const GRID_WIDTH = 70
+const GRID_HEIGHT = 70
 
 let snakes = {}
 let foodLocation = []
+let blocks = []
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 100; i++) {
     foodLocation.push(newFood())
+}
+
+for (let i = 0; i < 20; i++) {
+    blocks.push(getRandomLocation())
 }
 
 io.sockets.on("connection", (socket) => {
     console.log("New connection :) " + socket.id);
 
-    snakes[socket.id] = { pos: newSpawnPosition() }
-
     socket.emit("world_info", { 
         id: socket.id,
-        gridSize: GRID_SIZE, 
-        gridWidth: GRID_WIDTH, 
-        gridHeight: GRID_HEIGHT,
-        ...snakes[socket.id].pos,
-        foodCount: foodLocation.length
+        foodCount: foodLocation.length,
+        blocks: blocks
     })
 
     socket.emit("food_location", foodLocation)
+
+    socket.on("ready_to_play", () => {
+        snakes[socket.id] = { pos: newSpawnPosition(), colourInt: Math.floor(Math.random() * 4) }
+        socket.emit("player_info", snakes[socket.id])
+    })
 
     socket.on("move", snake => {
         snakes[socket.id] = snake
 
         if (isDead(socket.id)) {
-            snakes[socket.id].pos = newSpawnPosition()
-            socket.emit("dead", snakes[socket.id].pos)
+            delete snakes[socket.id]
+            socket.emit("dead")
+
+        } else {
+            const [ ateFood, foodIndex ] = isEatingFood(socket.id)
+            if (ateFood) {
+                socket.emit("grow", { value: foodLocation[foodIndex].value })
+                foodLocation[foodIndex] = newFood()
+                io.sockets.emit("food_location", foodLocation)
+            }
         }
-        const [ ateFood, foodIndex ] = isEatingFood(socket.id)
-        if (ateFood) {
-            socket.emit("grow", { value: foodLocation[foodIndex].value })
-            foodLocation[foodIndex] = newFood()
-            io.sockets.emit("food_location", foodLocation)
-        }
+
         socket.broadcast.emit("move", snakes)
     })
 
     socket.on("disconnect", () => {
         console.log("Client disconnected :(");
         delete snakes[socket.id]
+        socket.broadcast.emit("move", snakes)
     })
 })
 
 function newFood() {
-    return { ...getRandomLocation(), value: Math.ceil(Math.random() * 3)}
+    let value
+    let rand = Math.random() * 10
+
+    if (rand < 5) {
+        value = 1
+    } else if (rand < 8) {
+        value = 2
+    } else {
+        value = 3
+    }
+
+    return { ...getRandomLocation(), value: value }
 }
 
 function isDead(socketId) {
@@ -83,15 +103,21 @@ function isDead(socketId) {
         // Body collision
         if (enemySnake.body === undefined) continue
 
-        for (bodyElem of enemySnake.body) {
+        for (const bodyElem of enemySnake.body) {
             if (snake.pos.x === bodyElem.x && snake.pos.y === bodyElem.y) {
                 return true
             }
         }
     }
 
-    for (bodyElem of snake.body) {
+    for (const bodyElem of snake.body) {
         if (snake.pos.x === bodyElem.x && snake.pos.y === bodyElem.y) {
+            return true
+        }
+    }
+
+    for (const block of blocks) {
+        if (snake.pos.x === block.x && snake.pos.y === block.y) {
             return true
         }
     }
@@ -100,8 +126,10 @@ function isDead(socketId) {
 }
 
 function newSpawnPosition() {
-    // return { x: Math.floor(GRID_WIDTH / 2), y: Math.floor(GRID_HEIGHT / 2) }
-    return getRandomLocation()
+    let pos = getRandomLocation()
+    pos.x = Math.max(3, Math.min(pos.x, GRID_WIDTH-3))
+    pos.y = Math.max(3, Math.min(pos.y, GRID_HEIGHT-3))
+    return pos
 }
 
 
@@ -148,5 +176,5 @@ function getRandomLocation() {
         y = Math.floor(Math.random() * GRID_HEIGHT)
     } while (isOccupiedSquare(x, y))
 
-    return { x: x, y: y }
+    return { x, y }
 }
