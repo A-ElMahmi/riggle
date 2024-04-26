@@ -11,27 +11,12 @@ let displacement
 
 // let ip = "localhost"
 let ip = "riggle.onrender.com"
-// if (confirm("Are you the hacker?") === false) {
-//    ip = "10.156.15.105" 
-//    ip = "192.168.0.129" 
-// }
 
 function setup() {
     createCanvas(960, 540)
 
     // socket = io.connect("http://" + ip + ":3000")
     socket = io.connect("https://" + ip)
-
-    socket.on("connect_error", (err) => {
-        // the reason of the error, for example "xhr poll error"
-        console.log(err.message);
-      
-        // some additional description, for example the status code of the initial HTTP response
-        console.log(err.description);
-      
-        // some additional context, for example the XMLHttpRequest object
-        console.log(err.context);
-      });
 
     menu = new Menu()
     game = new Game()
@@ -99,7 +84,6 @@ function changeMode(newMode) {
     if (mode === MENU_MODE) {
         menu.setup()
     } else if (mode === GAME_MODE) {
-        // game.setup()
         game.respawn()
     }
 }

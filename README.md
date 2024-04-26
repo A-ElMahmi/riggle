@@ -41,3 +41,5 @@
 - Text to show how many points gained after eating (+1, +2, +3)
 - Custom audio class to allow layered audio
 - Help screen with "How to play"
+- Fix head rotation
+- Add particles when barking

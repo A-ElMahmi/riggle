@@ -271,7 +271,6 @@ class Game {
         push()
         drawingContext.shadowBlur = 5
         drawingContext.shadowColor = color(0)
-        // stroke(0)
         strokeWeight(1)
         rect(mapX + (this.s.pos.x * 2) - 2, mapY + (this.s.pos.y * 2) - 2, 8, 8)
         pop()
