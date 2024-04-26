@@ -1,7 +1,5 @@
 # RIGGLE
-> Snake Multiplayer Game
 
-## Overview
 - Online Multiplayer
 - Collect food to grow
 - Avoid obstacles 
