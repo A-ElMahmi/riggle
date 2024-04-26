@@ -8,9 +8,10 @@ app.use(express.static("public"))
 
 console.log("Server is running");
 
+// const io = require("socket.io")(server)
 const io = require("socket.io")(server, {
     cors: {
-        origin: "https://riggle.onrender.com",
+        origin: ["https://riggle.onrender.com", "https://html-classic.itch.zone"],
         methods: ["GET", "POST"]
     }
 })
