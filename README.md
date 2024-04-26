@@ -35,3 +35,9 @@
 
 - [ ] Leaderboard - random names database
 - [x] Add minimap
+
+## Future considerations
+- Queue to register keys for player movement
+- Text to show how many points gained after eating (+1, +2, +3)
+- Custom audio class to allow layered audio
+- Help screen with "How to play"

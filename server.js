@@ -8,7 +8,19 @@ app.use(express.static("public"))
 
 console.log("Server is running");
 
-const io = require("socket.io")(server)
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "https://riggle.onrender.com",
+        methods: ["GET", "POST"]
+    }
+})
+
+io.engine.on("connection_error", (err) => {
+    console.log(err.req);      // the request object
+    console.log(err.code);     // the error code, for example 1
+    console.log(err.message);  // the error message, for example "Session ID unknown"
+    console.log(err.context);  // some additional error context
+});
 
 const GRID_SIZE = 30
 const GRID_WIDTH = 70
