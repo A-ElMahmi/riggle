@@ -31,7 +31,7 @@
 - [ ] Bug fix: Head of enemy snakes
 - [x] Bug fix: Minimap moving with scale
 - [ ] Bug fix: Multiple food sound
-- [ ] Inifite food glitch
+- [x] Inifite food glitch
 
 - [ ] Leaderboard - random names database
 - [x] Add minimap
