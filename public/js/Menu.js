@@ -43,9 +43,9 @@ class Menu {
     }
 
     draw() {
-        // if (this.firstScreen) {
+        if (this.firstScreen) {
             this.moveCamera()
-        // }
+        }
 
         fill(0, 30)
         rect(- width/2, - height/2, width, height)
