@@ -1,6 +1,9 @@
 body {
     display: grid;
     place-items: center;
-    min-height: 100vh;
+    height: 100vh;
     overflow: hidden;
+
+    margin: 0;
+    padding: 0;
 }
