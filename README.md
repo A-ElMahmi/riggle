@@ -1,17 +1,27 @@
 # RIGGLE
 
-- Online Multiplayer
-- Collect food to grow
-- Avoid obstacles 
-- Charge towards your enemy
+![](screenshots/image1.png)
+![](screenshots/image2.png)
+![](screenshots/image3.png)
 
-## Screenshots
-![](images/image1.png)
-![](images/image2.png)
-![](images/image3.png)
-![](images/image4.png)
 
-## How to Play
-- Click the Button to Play
-- Use Arrow Keys and WASD to move your snake
-- Hold Space Bar to charge faster
+![](screenshots/how-to-play.png)
+
+- Use arrow keys or *WASD* to move your snake around
+![](screenshots/snake.png)
+
+- Collect *Nova Sparks* to grow your snake
+![](screenshots/food.png)
+
+- Avoid  *Shadow Blocks* and *Laser Walls* to stay alive 
+![](screenshots/laser-wall.png)
+
+- Hold *SPACE* to slither your snake faster
+
+
+![](screenshots/contributors.png)
+
+- [Abderrahmane El Mahmi](https://github.com/A-ElMahmi)
+- [Abdelrahman Abdalla](https://github.com/boodyy1)
+- [Zaid Irfan](https://github.com/zirfan1)
+- [Amar Jagana](https://github.com/amarjagana)

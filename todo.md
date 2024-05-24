@@ -43,3 +43,4 @@
 - Help screen with "How to play"
 - Fix head rotation
 - Add particles when barking
+- Add laser death sound?
